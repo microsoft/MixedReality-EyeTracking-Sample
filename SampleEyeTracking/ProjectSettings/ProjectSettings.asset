@@ -170,6 +170,7 @@ PlayerSettings:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  - {fileID: 0}
   metroInputSource: 0
   wsaTransparentSwapchain: 0
   m_HolographicPauseOnTrackingLoss: 1
@@ -652,7 +653,7 @@ PlayerSettings:
   metroCertificatePassword: 
   metroCertificateSubject: Microsoft
   metroCertificateIssuer: Microsoft
-  metroCertificateNotAfter: 809bd68532f7d901
+  metroCertificateNotAfter: 00e9c1f83914da01
   metroApplicationDescription: Extended Eye Tracking Unity Sample
   wsaImages: {}
   metroTileShortName: ExtendedEyeTrackingUnitySample

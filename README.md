@@ -16,7 +16,7 @@ Supported device  | Supported Unity versions | Built with XR configuration
 :---------------: | :----------------------: | :--------------------------: 
 HoloLens 2        | Unity 2020 or higher     | Mixed Reality OpenXR Plugin
 
-This sample shows you how to use extended eye tracking features in Unity projects using a HoloLens. Covered features include 
+This sample shows how to use EyeTracking SDK to access extended eye tracking features in Unity projects using a HoloLens. Covered features include 
 * Setting eye tracking data framerate
 * Getting individual and combined eye gaze vectors
 
@@ -29,10 +29,15 @@ File/folder  | Description |
 `SampleEyeTracking/ProjectSettings` | Unity asset setting files. |
 `SampleEyeTracking/.gitignore` | Define what to ignore at commit time. |
 
-## Prerequisites
+## Required tools
 
 1. Install the [tools for Mixed Reality development](https://learn.microsoft.com/en-us/windows/mixed-reality/develop/install-the-tools)
 2. Install the [recommended Unity version](https://learn.microsoft.com/en-us/windows/mixed-reality/develop/unity/choosing-unity-version) 
+
+This repo uses following versions of tools
+* Unity 2020.3.40f1
+* Mixed Reality OpenXR Plugin 1.5.1
+* Visual Studio 2022 17.3.6
 
 ## Setup
 
@@ -58,16 +63,19 @@ Extended eye tracking features are not supported by Holographic Remoting at this
 ### Used packages
 
 This Unity sample app use following packages. 
-* [Mixed Reality OpenXR Plugin](https://github.com/microsoft/OpenXR-Unity-MixedReality-Samples/releases): to read the pose of eyeGazeTracker under Unity scene coordinate system, then use to convert the gaze data's coordinate
-* [NuGetForUnity](https://github.com/GlitchEnzo/NuGetForUnity): a tool to download and import NuGet package
-* [Microsoft.MixedReality.EyeTracking](https://www.nuget.org/packages/Microsoft.MixedReality.EyeTracking): NuGet package to provide eye tracking features
-* [MRTK Graphic Tools](https://github.com/microsoft/MixedReality-GraphicsTools-Unity): provide the shaders to render holograms
+
+Package  | Description 
+-------------|-------------
+[Mixed Reality OpenXR Plugin](https://github.com/microsoft/OpenXR-Unity-MixedReality-Samples/releases) | to read the pose of eyeGazeTracker under Unity scene coordinate system, then use to convert the gaze data's coordinate
+[NuGetForUnity](https://github.com/GlitchEnzo/NuGetForUnity) | a tool to download and import NuGet package
+[Microsoft.MixedReality.EyeTracking](https://www.nuget.org/packages/Microsoft.MixedReality.EyeTracking) | NuGet package to provide eye tracking features
+[MRTK Graphic Tools](https://github.com/microsoft/MixedReality-GraphicsTools-Unity) | provide the shaders to render holograms
 
 The `Mixed Reality OpenXR Plugin` and `MRTK Graphic Tools` could be imported into Unity by the [MRTK Feature Tool](https://learn.microsoft.com/en-us/windows/mixed-reality/develop/unity/welcome-to-mr-feature-tool#download). The `NuGetForUnity` could be imported through Unity's custom package. The `Microsoft.MixedReality.EyeTracking` could be imported through the `NuGetForUnity` tab in Unity editor. 
 
 Depending on your use case, you may don't need to use all these packages in your projects.
 
-**Note** some of packages above are not open-source. 
+**Note**: some of packages above are not open-source. 
 
 ### Scripts
 
@@ -80,11 +88,9 @@ The script [ExtendedEyeGazeDataProvider](./SampleEyeTracking/Assets/Scripts/Exte
 
 ## Other documentations
 
-You can find the complete API reference for the Microsoft.MixedReality.EyeTracking NuGet package on at the [NuGet Gallery](https://www.nuget.org/packages/Microsoft.MixedReality.EyeTracking)
-
-For more details about how to setup your Unity project, refer to [Microsoft Docs](https://learn.microsoft.com/en-us/windows/mixed-reality/develop/unity/extended-eye-tracking-unity).
-
-For more details about how to setup native project, refer to [Microsoft Docs](https://learn.microsoft.com/en-us/windows/mixed-reality/develop/native/extended-eye-tracking-native).
+* Complete API reference for the Microsoft.MixedReality.EyeTracking NuGet package on at the [NuGet Gallery](https://www.nuget.org/packages/Microsoft.MixedReality.EyeTracking)
+* For more details about how to setup your Unity project, refer to [Microsoft Docs](https://learn.microsoft.com/en-us/windows/mixed-reality/develop/unity/extended-eye-tracking-unity).
+* For more details about how to setup native project, refer to [Microsoft Docs](https://learn.microsoft.com/en-us/windows/mixed-reality/develop/native/extended-eye-tracking-native).
 
 ## Contributing
 
