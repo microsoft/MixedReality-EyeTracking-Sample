@@ -44,7 +44,9 @@ public class ExtendedEyeGazeDataProvider : MonoBehaviour
     private bool _readingSucceeded;
     private SpatialGraphNode _eyeGazeTrackerNode;
     private Pose _eyeGazeTrackerPose;
-
+    private Matrix4x4 _eyeGazeTrackerSpaceToPlayspace = new Matrix4x4();
+    private Matrix4x4 _eyeGazeTrackerSpaceToWorld = new Matrix4x4();
+    private Transform _mixedRealityPlayspace;
 
     /// <summary>
     /// Get the current reading for the requested GazeType, relative to the main camera
@@ -133,21 +135,29 @@ public class ExtendedEyeGazeDataProvider : MonoBehaviour
             return null;
         }
 
-        // get tracker pose in Unity scene origin space
+        // Get tracker pose under _mixedRealityPlayspace, and construct the matrix to transform gaze data from tracker space to _mixedRealityPlayspace
         if (!_eyeGazeTrackerNode.TryLocate(_eyeGazeTrackerReading.SystemRelativeTime.Ticks, out _eyeGazeTrackerPose))
         {
             return null;
         }
-        transform.SetPositionAndRotation(_eyeGazeTrackerPose.position, _eyeGazeTrackerPose.rotation);
+        _eyeGazeTrackerSpaceToPlayspace.SetTRS(_eyeGazeTrackerPose.position, _eyeGazeTrackerPose.rotation, Vector3.one);
 
-        _gazeReading.EyePosition = transform.TransformPoint(ToUnity(_trackerSpaceGazeOrigin));
-        _gazeReading.GazeDirection = transform.TransformDirection(ToUnity(_trackerSpaceGazeDirection));
+        // Construct the matrix to transform gaze data from tracker space to Unity world space
+        _eyeGazeTrackerSpaceToWorld = (_mixedRealityPlayspace != null) ?
+                _mixedRealityPlayspace.localToWorldMatrix * _eyeGazeTrackerSpaceToPlayspace :
+                _eyeGazeTrackerSpaceToPlayspace;
+
+        // Transform gaze data from tracker space to Unity world space 
+        _gazeReading.EyePosition = _eyeGazeTrackerSpaceToWorld.MultiplyPoint3x4(ToUnity(_trackerSpaceGazeOrigin));
+        _gazeReading.GazeDirection = _eyeGazeTrackerSpaceToWorld.MultiplyVector(ToUnity(_trackerSpaceGazeDirection));
+
         return _gazeReading;
     }
 
     private async void Start()
     {
         _mainCamera = Camera.main;
+        _mixedRealityPlayspace = _mainCamera.transform.parent;
 
         Debug.Log("Initializing ExtendedEyeTracker");
 #if ENABLE_WINMD_SUPPORT
