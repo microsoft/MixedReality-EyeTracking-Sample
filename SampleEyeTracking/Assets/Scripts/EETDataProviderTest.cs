@@ -15,7 +15,7 @@ public class EETDataProviderTest : MonoBehaviour
     [SerializeField]
     private GameObject CameraRelativeCombinedGazeObject;
     [SerializeField]
-    private ExtendedEyeGazeDataProvider extendedEyeTrackingDataProvider;
+    private ExtendedEyeGazeDataProvider extendedEyeGazeDataProvider;
 
     private DateTime timestamp;
     private ExtendedEyeGazeDataProvider.GazeReading gazeReading;
@@ -26,7 +26,7 @@ public class EETDataProviderTest : MonoBehaviour
         timestamp = DateTime.Now;
 
         // positioning for left gaze object
-        gazeReading = extendedEyeTrackingDataProvider.GetWorldSpaceGazeReading(ExtendedEyeGazeDataProvider.GazeType.Left, timestamp);
+        gazeReading = extendedEyeGazeDataProvider.GetWorldSpaceGazeReading(ExtendedEyeGazeDataProvider.GazeType.Left, timestamp);
         if (gazeReading != null)
         {
             // position gaze object 1.5 meters out from the gaze origin along the gaze direction
@@ -39,7 +39,7 @@ public class EETDataProviderTest : MonoBehaviour
         }
 
         // positioning for right gaze object
-        gazeReading = extendedEyeTrackingDataProvider.GetWorldSpaceGazeReading(ExtendedEyeGazeDataProvider.GazeType.Right, timestamp);
+        gazeReading = extendedEyeGazeDataProvider.GetWorldSpaceGazeReading(ExtendedEyeGazeDataProvider.GazeType.Right, timestamp);
         if (gazeReading != null)
         {
             // position gaze object 1.5 meters out from the gaze origin along the gaze direction
@@ -52,7 +52,7 @@ public class EETDataProviderTest : MonoBehaviour
         }
 
         // positioning for combined gaze object
-        gazeReading = extendedEyeTrackingDataProvider.GetWorldSpaceGazeReading(ExtendedEyeGazeDataProvider.GazeType.Combined, timestamp);
+        gazeReading = extendedEyeGazeDataProvider.GetWorldSpaceGazeReading(ExtendedEyeGazeDataProvider.GazeType.Combined, timestamp);
         if (gazeReading != null)
         {
             // position gaze object 1.5 meters out from the gaze origin along the gaze direction
@@ -65,7 +65,7 @@ public class EETDataProviderTest : MonoBehaviour
         }
 
         // positioning for camera relative gaze cube
-        gazeReading = extendedEyeTrackingDataProvider.GetCameraSpaceGazeReading(ExtendedEyeGazeDataProvider.GazeType.Combined, timestamp);
+        gazeReading = extendedEyeGazeDataProvider.GetCameraSpaceGazeReading(ExtendedEyeGazeDataProvider.GazeType.Combined, timestamp);
         if (gazeReading != null)
         {
             // position gaze object 1.5 meters out from the gaze origin along the gaze direction
