@@ -35,6 +35,7 @@ File/folder  | Description |
 2. Install the [recommended Unity version](https://learn.microsoft.com/en-us/windows/mixed-reality/develop/unity/choosing-unity-version) 
 
 This repo uses following versions of tools
+* HoloLens 2 with OS build minimum 20348.1537
 * Unity 2020.3.40f1
 * Mixed Reality OpenXR Plugin 1.5.1
 * Visual Studio 2022 17.3.6
