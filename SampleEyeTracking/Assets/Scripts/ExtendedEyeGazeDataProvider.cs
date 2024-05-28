@@ -51,7 +51,7 @@ public class ExtendedEyeGazeDataProvider : MonoBehaviour
 
     /// <summary>
     /// Get the current reading for the requested GazeType, relative to the main camera
-    /// Will return null if unable to return a valid reading
+    /// Will return a GazeReading with IsValid set to false if unable to return a valid reading
     /// </summary>
     /// <param name="gazeType"></param>
     /// <returns></returns>
@@ -62,7 +62,7 @@ public class ExtendedEyeGazeDataProvider : MonoBehaviour
 
     /// <summary>
     /// Get the reading for the requested GazeType at the given TimeStamp, relative to the main camera
-    /// Will return null if unable to return a valid reading
+    /// Will return a GazeReading with IsValid set to false if unable to return a valid reading
     /// </summary>
     /// <param name="gazeType"></param>
     /// <param name="timestamp"></param>
@@ -84,7 +84,7 @@ public class ExtendedEyeGazeDataProvider : MonoBehaviour
 
     /// <summary>
     /// Get the current reading for the requested GazeType
-    /// Will return null if unable to return a valid reading
+    /// Will return a GazeReading with IsValid set to false if unable to return a valid reading
     /// </summary>
     /// <param name="gazeType"></param>
     /// <returns></returns>
@@ -95,7 +95,7 @@ public class ExtendedEyeGazeDataProvider : MonoBehaviour
 
     /// <summary>
     /// Get the reading for the requested GazeType at the given TimeStamp
-    /// Will return null if unable to return a valid reading
+    /// Will return a GazeReading with IsValid set to false if unable to return a valid reading
     /// </summary>
     /// <param name="gazeType"></param>
     /// <param name="timestamp"></param>
