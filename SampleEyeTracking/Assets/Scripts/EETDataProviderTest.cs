@@ -27,7 +27,7 @@ public class EETDataProviderTest : MonoBehaviour
 
         // positioning for left gaze object
         gazeReading = extendedEyeGazeDataProvider.GetWorldSpaceGazeReading(ExtendedEyeGazeDataProvider.GazeType.Left, timestamp);
-        if (gazeReading != null)
+        if (gazeReading.IsValid)
         {
             // position gaze object 1.5 meters out from the gaze origin along the gaze direction
             LeftGazeObject.transform.position = gazeReading.EyePosition + 1.5f * gazeReading.GazeDirection;
@@ -40,7 +40,7 @@ public class EETDataProviderTest : MonoBehaviour
 
         // positioning for right gaze object
         gazeReading = extendedEyeGazeDataProvider.GetWorldSpaceGazeReading(ExtendedEyeGazeDataProvider.GazeType.Right, timestamp);
-        if (gazeReading != null)
+        if (gazeReading.IsValid)
         {
             // position gaze object 1.5 meters out from the gaze origin along the gaze direction
             RightGazeObject.transform.position = gazeReading.EyePosition + 1.5f * gazeReading.GazeDirection;
@@ -53,7 +53,7 @@ public class EETDataProviderTest : MonoBehaviour
 
         // positioning for combined gaze object
         gazeReading = extendedEyeGazeDataProvider.GetWorldSpaceGazeReading(ExtendedEyeGazeDataProvider.GazeType.Combined, timestamp);
-        if (gazeReading != null)
+        if (gazeReading.IsValid)
         {
             // position gaze object 1.5 meters out from the gaze origin along the gaze direction
             CombinedGazeObject.transform.position = gazeReading.EyePosition + 1.5f * gazeReading.GazeDirection;
@@ -66,7 +66,7 @@ public class EETDataProviderTest : MonoBehaviour
 
         // positioning for camera relative gaze cube
         gazeReading = extendedEyeGazeDataProvider.GetCameraSpaceGazeReading(ExtendedEyeGazeDataProvider.GazeType.Combined, timestamp);
-        if (gazeReading != null)
+        if (gazeReading.IsValid)
         {
             // position gaze object 1.5 meters out from the gaze origin along the gaze direction
             CameraRelativeCombinedGazeObject.transform.localPosition = gazeReading.EyePosition + 1.5f * gazeReading.GazeDirection;

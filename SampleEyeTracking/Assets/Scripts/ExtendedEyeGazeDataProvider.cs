@@ -20,13 +20,14 @@ public class ExtendedEyeGazeDataProvider : MonoBehaviour
         Combined
     }
 
-    public class GazeReading
+    public struct GazeReading
     {
+        public bool IsValid;
         public Vector3 EyePosition;
         public Vector3 GazeDirection;
-        public GazeReading() { }
-        public GazeReading(Vector3 position, Vector3 direction)
+        public GazeReading(bool isValid, Vector3 position, Vector3 direction)
         {
+            IsValid = isValid;
             EyePosition = position;
             GazeDirection = direction;
         }
@@ -38,8 +39,8 @@ public class ExtendedEyeGazeDataProvider : MonoBehaviour
     private EyeGazeTrackerReading _eyeGazeTrackerReading;
     private System.Numerics.Vector3 _trackerSpaceGazeOrigin;
     private System.Numerics.Vector3 _trackerSpaceGazeDirection;
-    private GazeReading _gazeReading = new GazeReading();
-    private GazeReading _transformedGazeReading = new GazeReading();
+    private GazeReading _gazeReading;
+    private GazeReading _invalidGazeReading = new GazeReading(false, Vector3.zero, Vector3.zero);
     private bool _gazePermissionEnabled;
     private bool _readingSucceeded;
     private SpatialGraphNode _eyeGazeTrackerNode;
@@ -68,15 +69,17 @@ public class ExtendedEyeGazeDataProvider : MonoBehaviour
     /// <returns></returns>
     public GazeReading GetCameraSpaceGazeReading(GazeType gazeType, DateTime timestamp)
     {
-        if (GetWorldSpaceGazeReading(gazeType, timestamp) == null)
+        _gazeReading = GetWorldSpaceGazeReading(gazeType, timestamp);
+        if (!_gazeReading.IsValid)
         {
-            return null;
+            return _invalidGazeReading;
         }
 
-        _transformedGazeReading.EyePosition = _mainCamera.transform.InverseTransformPoint(_gazeReading.EyePosition);
-        _transformedGazeReading.GazeDirection = _mainCamera.transform.InverseTransformDirection(_gazeReading.GazeDirection).normalized;
+        _gazeReading.EyePosition = _mainCamera.transform.InverseTransformPoint(_gazeReading.EyePosition);
+        _gazeReading.GazeDirection = _mainCamera.transform.InverseTransformDirection(_gazeReading.GazeDirection).normalized;
+        _gazeReading.IsValid = true;
 
-        return _transformedGazeReading;
+        return _gazeReading;
     }
 
     /// <summary>
@@ -101,14 +104,14 @@ public class ExtendedEyeGazeDataProvider : MonoBehaviour
     {
         if (!_gazePermissionEnabled || _eyeGazeTracker == null)
         {
-            return null;
+            return _invalidGazeReading;
         }
 
         _eyeGazeTrackerReading = _eyeGazeTracker.TryGetReadingAtTimestamp(timestamp);
         if (_eyeGazeTrackerReading == null)
         {
             Debug.LogWarning($"Unable to get eyeGazeTrackerReading at: {timestamp.ToLongTimeString()}");
-            return null;
+            return _invalidGazeReading;
         }
 
         _readingSucceeded = false;
@@ -132,13 +135,13 @@ public class ExtendedEyeGazeDataProvider : MonoBehaviour
         }
         if (!_readingSucceeded)
         {
-            return null;
+            return _invalidGazeReading;
         }
 
         // Get tracker pose under _mixedRealityPlayspace, and construct the matrix to transform gaze data from tracker space to _mixedRealityPlayspace
         if (!_eyeGazeTrackerNode.TryLocate(_eyeGazeTrackerReading.SystemRelativeTime.Ticks, out _eyeGazeTrackerPose))
         {
-            return null;
+            return _invalidGazeReading;
         }
         _eyeGazeTrackerSpaceToPlayspace.SetTRS(_eyeGazeTrackerPose.position, _eyeGazeTrackerPose.rotation, Vector3.one);
 
@@ -150,7 +153,7 @@ public class ExtendedEyeGazeDataProvider : MonoBehaviour
         // Transform gaze data from tracker space to Unity world space 
         _gazeReading.EyePosition = _eyeGazeTrackerSpaceToWorld.MultiplyPoint3x4(ToUnity(_trackerSpaceGazeOrigin));
         _gazeReading.GazeDirection = _eyeGazeTrackerSpaceToWorld.MultiplyVector(ToUnity(_trackerSpaceGazeDirection));
-
+        _gazeReading.IsValid = true;
         return _gazeReading;
     }
 
